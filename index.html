@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Library Management System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div id="toast"></div>
+
+
+<!-- ================================= -->
+<!-- LOGIN PAGE                         -->
+<!-- ================================= -->
+
+<section
+    id="loginPage"
+    class="auth-page"
+>
+
+    <div class="auth-card">
+
+        <h1>
+            📚 Library Management System
+        </h1>
+
+        <p>
+            Sign in to your library account
+        </p>
+
+
+        <!-- LOGIN -->
+
+        <form id="loginForm">
+
+            <label>
+                Email
+
+                <input
+                    id="loginEmail"
+                    type="email"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+                Password
+
+                <input
+                    id="loginPassword"
+                    type="password"
+                    required
+                >
+
+            </label>
+
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+
+        <hr>
+
+
+        <!-- REGISTRATION -->
+
+        <h3>
+            Create Member Account
+        </h3>
+
+
+        <form id="registerForm">
+
+            <label>
+                Full name
+
+                <input
+                    id="regName"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+                Email
+
+                <input
+                    id="regEmail"
+                    type="email"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+                Password
+
+                <input
+                    id="regPassword"
+                    type="password"
+                    minlength="6"
+                    required
+                >
+
+            </label>
+
+
+            <button
+                class="secondary"
+                type="submit"
+            >
+                Register
+            </button>
+
+        </form>
+
+
+        <small>
+
+            Demo admin:
+            admin@library.com / Admin@123
+
+            <br>
+
+            Demo member:
+            member@library.com / Member@123
+
+        </small>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================================= -->
+<!-- APPLICATION PAGE                   -->
+<!-- ================================= -->
+
+<section
+    id="appPage"
+    class="hidden"
+>
+
+
+<header class="topbar">
+
+    <div>
+
+        <strong>
+            📚 Library System
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span id="welcome"></span>
+
+
+        <button
+            id="logoutBtn"
+            class="danger small"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+    <!-- DASHBOARD STATISTICS -->
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <span>
+                Books
+            </span>
+
+            <b id="statBooks">
+                0
+            </b>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                Members
+            </span>
+
+            <b id="statMembers">
+                0
+            </b>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                Active Loans
+            </span>
+
+            <b id="statLoans">
+                0
+            </b>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                Available Copies
+            </span>
+
+            <b id="statAvailable">
+                0
+            </b>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="tabs">
+
+        <button
+            data-tab="booksTab"
+            class="active"
+        >
+            Book Search
+        </button>
+
+
+        <button
+            data-tab="loansTab"
+        >
+            My Loans
+        </button>
+
+
+        <button
+            data-tab="adminTab"
+            id="adminTabButton"
+        >
+            Administration
+        </button>
+
+    </nav>
+
+
+
+    <!-- ================================= -->
+    <!-- BOOK SEARCH                        -->
+    <!-- ================================= -->
+
+    <section
+        id="booksTab"
+        class="tab-content"
+    >
+
+
+        <div class="panel">
+
+            <h2>
+                Search Books
+            </h2>
+
+
+            <div class="search-row">
+
+                <input
+                    id="searchBox"
+                    placeholder="Search by title, author or ISBN"
+                >
+
+
+                <button id="searchBtn">
+                    Search
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="panel">
+
+            <h2>
+                Books
+            </h2>
+
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Title</th>
+
+                            <th>Author</th>
+
+                            <th>ISBN</th>
+
+                            <th>Category</th>
+
+                            <th>Total</th>
+
+                            <th>Available</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="booksTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================= -->
+    <!-- LOANS                              -->
+    <!-- ================================= -->
+
+    <section
+        id="loansTab"
+        class="tab-content hidden"
+    >
+
+        <div class="panel">
+
+            <h2>
+                Loans
+            </h2>
+
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Book</th>
+
+                            <th>Borrowed</th>
+
+                            <th>Due</th>
+
+                            <th>Returned</th>
+
+                            <th>Status</th>
+
+                            <th>Fine (UGX)</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="loansTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================= -->
+    <!-- ADMINISTRATION                     -->
+    <!-- ================================= -->
+
+    <section
+        id="adminTab"
+        class="tab-content hidden"
+    >
+
+
+        <div class="grid-2">
+
+
+            <!-- ADD BOOK -->
+
+            <div class="panel">
+
+                <h2>
+                    Add Book
+                </h2>
+
+
+                <form id="bookForm">
+
+
+                    <label>
+
+                        Title
+
+                        <input
+                            id="bookTitle"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Author
+
+                        <input
+                            id="bookAuthor"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        ISBN
+
+                        <input
+                            id="bookIsbn"
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Category
+
+                        <input
+                            id="bookCategory"
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Total copies
+
+                        <input
+                            id="bookCopies"
+                            type="number"
+                            min="1"
+                            value="1"
+                            required
+                        >
+
+                    </label>
+
+
+                    <button>
+                        Add Book
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- BORROW BOOK FOR MEMBER -->
+
+            <div class="panel">
+
+                <h2>
+                    Borrow Book for Member
+                </h2>
+
+
+                <form id="borrowForm">
+
+
+                    <label>
+
+                        Member
+
+                        <select
+                            id="memberSelect"
+                            required
+                        >
+                        </select>
+
+                    </label>
+
+
+                    <label>
+
+                        Book
+
+                        <select
+                            id="bookSelect"
+                            required
+                        >
+                        </select>
+
+                    </label>
+
+
+                    <button>
+                        Borrow
+                    </button>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ALL LOANS -->
+
+        <div class="panel">
+
+            <h2>
+                All Loans
+            </h2>
+
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Member</th>
+
+                            <th>Book</th>
+
+                            <th>Borrowed</th>
+
+                            <th>Due</th>
+
+                            <th>Status</th>
+
+                            <th>Fine</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="allLoansTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+</section>
+
+
+
+<script src="/js/app.js"></script>
+
+</body>
+
+</html>
